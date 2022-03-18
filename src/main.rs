@@ -14,6 +14,8 @@ fn call_go(go_name: GoString) -> Result<u32, Box<dyn std::error::Error>> {
         let libc = libc::Library::new("./libs/linux/libhello.so")?;
         #[cfg(target_os = "macos")]
         let libc = libc::Library::new("./libs/macos/libhello.so")?;
+        #[cfg(target_os = "windows")]
+        let libc = libc::Library::new("./libs/windows/libhello.dll")?;
         let func: libc::Symbol<unsafe extern "C" fn(GoString)> = libc.get(b"Hello")?;
         func(go_name);
         Ok(0)
